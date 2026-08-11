@@ -8,7 +8,7 @@ obj/
 # Environment
 .env
 .env.local
-appsettings.Development.json
+appsettings.*.local.json
 
 # IDE
 .vscode/
