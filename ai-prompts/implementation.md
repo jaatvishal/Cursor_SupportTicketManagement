@@ -32,36 +32,37 @@
 
 ---
 
-## Prompt 3: Backend API
+## Prompt 3: Backend API (.NET 9)
 
 **Prompt:**
-> Build the Express REST API with routes for tickets CRUD, status changes, comments, and user listing. Use Zod validation, layered architecture (routes→services→repositories), and proper error handling.
+> Build the ASP.NET Core Web API with controllers for tickets CRUD, status changes, comments, and user listing. Use Entity Framework Core 9 with SQL Server, layered architecture (Api→Core→Infrastructure), and proper error handling with HTTP 422 for invalid transitions.
 
 **AI Response Summary:**
-- Complete backend with 7 endpoints
-- Zod schemas for all write operations
-- Error handler middleware mapping errors to HTTP codes
+- Complete .NET 9 solution with 3 projects
+- TicketStateMachine service in Core layer
+- EF Core DbContext with SQL Server
+- REST controllers with validation
 
 **Accepted:** Full backend implementation  
 **Changed:** Added separate PATCH /status endpoint  
-**Rejected:** Class-based controllers (used functional approach)
+**Rejected:** Minimal API endpoints (used controllers for clarity)
 
 ---
 
-## Prompt 4: Frontend UI
+## Prompt 4: Frontend UI (Angular 19)
 
 **Prompt:**
-> Build React frontend with ticket list (search/filter), create form, and detail page (edit, comments, status actions). Show only valid status transition buttons. Display API errors clearly.
+> Build Angular 19 frontend with standalone components for ticket list (search/filter), create form, and detail page (edit, comments, status actions). Show only valid status transition buttons. Display API errors clearly.
 
 **AI Response Summary:**
-- 3 pages with React Router
-- Search with debounce, status filter dropdown
+- Angular 19 SPA with standalone components
+- TicketService with HttpClient
 - Status action buttons driven by getAllowedTransitions
 - Error alerts for API failures
 
 **Accepted:** Full frontend  
-**Changed:** Added edit mode toggle on detail page  
-**Rejected:** Material UI (used custom CSS for simplicity)
+**Changed:** Used Angular 19 (latest compatible with Node 22)  
+**Rejected:** NgModules (used standalone components)
 
 ---
 
