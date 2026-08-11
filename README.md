@@ -20,20 +20,22 @@ A full-stack support ticket management application built with AI-assisted develo
 
 ## Quick Start
 
-### 1. Database Setup
+### 1. Database Setup (SQL Server Express — no Docker)
 
-See [database/setup-notes.md](database/setup-notes.md).
+Ensure **SQL Server (SQLEXPRESS)** is running, then from the **repository root** on Windows:
 
-```bash
-docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=YourStrong!Passw0rd" \
-  -p 1433:1433 --name support-ticket-sql \
-  -d mcr.microsoft.com/mssql/server:2022-latest
-
-sqlcmd -S localhost,1433 -U sa -P "YourStrong!Passw0rd" \
-  -i database/schema-or-migrations/001_create_tables.sql
-sqlcmd -S localhost,1433 -U sa -P "YourStrong!Passw0rd" \
-  -i database/seed-data/seed.sql
+```bat
+database\setup-local.bat
 ```
+
+Or manually:
+```bat
+sqlcmd -S localhost\SQLEXPRESS -E -i database\schema-or-migrations\000_create_database.sql
+sqlcmd -S localhost\SQLEXPRESS -E -d SupportTicketDB -i database\schema-or-migrations\001_create_tables.sql
+sqlcmd -S localhost\SQLEXPRESS -E -d SupportTicketDB -i database\seed-data\seed.sql
+```
+
+See [database/setup-notes.md](database/setup-notes.md) for full details.
 
 ### 2. Backend (.NET API)
 
@@ -101,18 +103,13 @@ Invalid transitions return HTTP 422 and are displayed in the UI.
 
 ## Configuration
 
-Update `src/backend/SupportTicket.Api/appsettings.Development.json`:
+Connection string in `src/backend/SupportTicket.Api/appsettings.Development.json`:
 
-```json
-{
-  "ConnectionStrings": {
-    "DefaultConnection": "Server=localhost,1433;Database=SupportTicketDB;User Id=sa;Password=YourStrong!Passw0rd;TrustServerCertificate=True;Encrypt=False"
-  },
-  "FrontendUrl": "http://localhost:4200"
-}
+```
+Data Source=localhost\SQLEXPRESS;Initial Catalog=SupportTicketDB;Integrated Security=True;Encrypt=True;TrustServerCertificate=True
 ```
 
-Frontend API URL is configured in `src/frontend/src/app/services/ticket.service.ts` (`http://localhost:5000`).
+Uses **Windows Authentication** — no SQL username/password required.
 
 ## License
 

@@ -2,89 +2,83 @@
 
 ## Database Choice
 
-**Microsoft SQL Server** — chosen for enterprise alignment and strong relational data integrity for the ticket lifecycle state machine.
+**Microsoft SQL Server Express** — local instance with Windows Authentication.
+
+## Connection String
+
+```
+Data Source=localhost\SQLEXPRESS;Initial Catalog=SupportTicketDB;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Command Timeout=0
+```
+
+This is configured in `src/backend/SupportTicket.Api/appsettings.Development.json`.
 
 ## Prerequisites
 
-- SQL Server 2019+ (or SQL Server Express)
-- SQL Server Management Studio (SSMS) or Azure Data Studio (optional)
-- Docker (alternative — see below)
+- SQL Server Express installed and running (`localhost\SQLEXPRESS`)
+- Windows Authentication enabled
+- `sqlcmd` utility (included with SQL Server tools)
 
-## Option A: Docker (Recommended for Local Development)
+## Quick Setup (Windows)
 
-```bash
-docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=YourStrong!Passw0rd" \
-  -p 1433:1433 --name support-ticket-sql \
-  -d mcr.microsoft.com/mssql/server:2022-latest
+Run one of these from the **repository root**:
+
+### Option A: Batch script
+```bat
+database\setup-local.bat
 ```
 
-Wait ~30 seconds for SQL Server to start, then run the schema and seed scripts.
+### Option B: PowerShell
+```powershell
+.\database\setup-local.ps1
+```
 
-## Option B: Local SQL Server Instance
+### Option C: Manual sqlcmd
+```bat
+sqlcmd -S localhost\SQLEXPRESS -E -i database\schema-or-migrations\000_create_database.sql
+sqlcmd -S localhost\SQLEXPRESS -E -d SupportTicketDB -i database\schema-or-migrations\001_create_tables.sql
+sqlcmd -S localhost\SQLEXPRESS -E -d SupportTicketDB -i database\seed-data\seed.sql
+```
 
-Use your existing SQL Server instance and create a database:
+### Option D: SQL Server Management Studio (SSMS)
+
+1. Connect to `localhost\SQLEXPRESS` with Windows Authentication
+2. Open and execute each script in order:
+   - `database/schema-or-migrations/000_create_database.sql`
+   - `database/schema-or-migrations/001_create_tables.sql`
+   - `database/seed-data/seed.sql`
+
+## Scripts (run in order)
+
+| Script | Purpose |
+|--------|---------|
+| `000_create_database.sql` | Creates `SupportTicketDB` |
+| `001_create_tables.sql` | Creates Users, Tickets, Comments tables |
+| `seed.sql` | Inserts 5 users, 5 tickets, 7 comments |
+
+## Verification
 
 ```sql
-CREATE DATABASE SupportTicketDB;
-GO
 USE SupportTicketDB;
-GO
+SELECT COUNT(*) AS UserCount FROM Users;      -- Expected: 5
+SELECT COUNT(*) AS TicketCount FROM Tickets;  -- Expected: 5
+SELECT COUNT(*) AS CommentCount FROM Comments; -- Expected: 7
 ```
 
-## Running Migrations
-
-Execute scripts in order:
-
-1. `database/schema-or-migrations/001_create_tables.sql`
-2. `database/seed-data/seed.sql`
-
-### Using sqlcmd
-
-```bash
-sqlcmd -S localhost,1433 -U sa -P "YourStrong!Passw0rd" -i database/schema-or-migrations/001_create_tables.sql
-sqlcmd -S localhost,1433 -U sa -P "YourStrong!Passw0rd" -i database/seed-data/seed.sql
-```
-
-### Using the .NET API
-
-After running SQL scripts, start the API — EF Core will connect to the existing schema:
+## Start the API
 
 ```bash
 cd src/backend
 dotnet run --project SupportTicket.Api
 ```
 
-The API reads the connection string from `appsettings.Development.json`.
-
-## Environment Variables
-
-Copy `.env.example` to `.env` in `src/backend/` and configure:
-
-| Variable | Description | Example |
-|----------|-------------|---------|
-| `DB_SERVER` | SQL Server host | `localhost` |
-| `DB_PORT` | SQL Server port | `1433` |
-| `DB_NAME` | Database name | `SupportTicketDB` |
-| `DB_USER` | SQL login | `sa` |
-| `DB_PASSWORD` | SQL password | `YourStrong!Passw0rd` |
-| `DB_ENCRYPT` | Use encryption | `false` (local dev) |
-| `DB_TRUST_SERVER_CERTIFICATE` | Trust self-signed cert | `true` (local dev) |
-
-## Verification
-
-After setup, verify with:
-
-```sql
-SELECT COUNT(*) AS UserCount FROM Users;      -- Expected: 5
-SELECT COUNT(*) AS TicketCount FROM Tickets;  -- Expected: 5
-SELECT COUNT(*) AS CommentCount FROM Comments; -- Expected: 7
-```
+The API connects to `SupportTicketDB` on `localhost\SQLEXPRESS` using your Windows credentials.
 
 ## Troubleshooting
 
 | Issue | Solution |
 |-------|----------|
-| Connection refused | Ensure SQL Server is running and port 1433 is open |
-| Login failed | Verify SA password matches `.env` |
-| Certificate error | Set `DB_TRUST_SERVER_CERTIFICATE=true` for local dev |
-| Database not found | Create `SupportTicketDB` before running migrations |
+| Cannot connect to SQLEXPRESS | Open **Services** and ensure **SQL Server (SQLEXPRESS)** is running |
+| Login failed | Use Windows Authentication (`-E` flag in sqlcmd); run SSMS/cmd as your Windows user |
+| Database not found | Run `000_create_database.sql` first |
+| sqlcmd not found | Install [SQL Server Command Line Utilities](https://learn.microsoft.com/en-us/sql/tools/sqlcmd/sqlcmd-utility) or use SSMS |
+| Certificate error | `TrustServerCertificate=True` is already set in the connection string |
