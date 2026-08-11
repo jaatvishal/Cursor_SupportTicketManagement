@@ -20,6 +20,21 @@ This is configured in `src/backend/SupportTicket.Api/appsettings.Development.jso
 
 ## Quick Setup (Windows)
 
+### Recommended: start the API
+
+The API automatically creates all tables and seeds sample data when `SupportTicketDB`
+is empty:
+
+```bat
+cd src\backend
+dotnet run --project SupportTicket.Api
+```
+
+After the API reports that it is listening, right-click **Tables** in SSMS and select
+**Refresh**. You should see `dbo.Users`, `dbo.Tickets`, and `dbo.Comments`.
+
+### Alternative: run setup scripts
+
 Run one of these from the **repository root**:
 
 ### Option A: Batch script
@@ -72,6 +87,9 @@ dotnet run --project SupportTicket.Api
 ```
 
 The API connects to `SupportTicketDB` on `localhost\SQLEXPRESS` using your Windows credentials.
+
+The API calls EF Core `EnsureCreated` on startup and inserts seed data only when the
+`Users` table is empty. Existing data is not deleted.
 
 ## Troubleshooting
 

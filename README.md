@@ -22,7 +22,10 @@ A full-stack support ticket management application built with AI-assisted develo
 
 ### 1. Database Setup (SQL Server Express — no Docker)
 
-Ensure **SQL Server (SQLEXPRESS)** is running, then from the **repository root** on Windows:
+Ensure **SQL Server (SQLEXPRESS)** is running. The API now automatically creates the
+`SupportTicketDB` tables and inserts sample data the first time it starts.
+
+You can also initialize it manually from the **repository root** on Windows:
 
 ```bat
 database\setup-local.bat
@@ -41,7 +44,6 @@ See [database/setup-notes.md](database/setup-notes.md) for full details.
 
 ```bash
 cd src/backend
-# Update connection string in SupportTicket.Api/appsettings.Development.json
 dotnet run --project SupportTicket.Api
 # API: http://localhost:5000
 # Swagger: http://localhost:5000/openapi/v1.json (Development)
@@ -110,6 +112,36 @@ Data Source=localhost\SQLEXPRESS;Initial Catalog=SupportTicketDB;Integrated Secu
 ```
 
 Uses **Windows Authentication** — no SQL username/password required.
+
+## Run locally in Cursor or Visual Studio
+
+### Cursor / VS Code terminal
+
+Open the repository folder and use two terminals:
+
+```bat
+cd src\backend
+dotnet run --project SupportTicket.Api
+```
+
+```bat
+cd src\frontend
+npm install
+npm start
+```
+
+Then open `http://localhost:4200`. Starting the API creates and seeds the database
+automatically. Refresh **Tables** in SSMS after the API starts.
+
+### Visual Studio 2022
+
+1. Open `src/backend/SupportTicket.sln`.
+2. Set `SupportTicket.Api` as the startup project.
+3. Press `F5` or `Ctrl+F5`.
+4. Start the Angular frontend separately with `npm start` from `src/frontend`.
+
+Visual Studio must run under the Windows account that can access
+`localhost\SQLEXPRESS`, because the connection uses Integrated Security.
 
 ## License
 
