@@ -1,0 +1,13 @@
+<header class="app-header">
+  <div class="container">
+    <h1>Support Tickets</h1>
+    <nav>
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">All Tickets</a>
+      <a routerLink="/create" routerLinkActive="active">Create Ticket</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+  <router-outlet />
+</main>

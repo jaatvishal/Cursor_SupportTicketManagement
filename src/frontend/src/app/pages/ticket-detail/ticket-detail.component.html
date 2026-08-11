@@ -1,0 +1,104 @@
+<div *ngIf="loading" class="loading">Loading ticket...</div>
+<div *ngIf="error && !ticket" class="alert alert-error">{{ error }}</div>
+
+<ng-container *ngIf="ticket">
+  <div class="page-header">
+    <div>
+      <a routerLink="/" class="back-link">&larr; Back to tickets</a>
+      <h2>Ticket #{{ ticket.id }}</h2>
+    </div>
+    <button *ngIf="!editMode" class="btn btn-secondary" (click)="editMode = true">Edit</button>
+  </div>
+
+  <div *ngIf="error" class="alert alert-error">{{ error }}</div>
+
+  <div class="detail-grid">
+    <div>
+      <div class="card">
+        <ng-container *ngIf="editMode; else viewMode">
+          <div class="form-group">
+            <label>Title</label>
+            <input [(ngModel)]="editTitle" />
+          </div>
+          <div class="form-group">
+            <label>Description</label>
+            <textarea [(ngModel)]="editDescription"></textarea>
+          </div>
+          <div class="form-group">
+            <label>Priority</label>
+            <select [(ngModel)]="editPriority">
+              <option *ngFor="let p of priorities" [value]="p">{{ p }}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Assign To</label>
+            <select [(ngModel)]="editAssignee">
+              <option [ngValue]="null">Unassigned</option>
+              <option *ngFor="let u of agents" [ngValue]="u.id">{{ u.name }}</option>
+            </select>
+          </div>
+          <div class="form-actions">
+            <button class="btn btn-primary" (click)="save()" [disabled]="saving">{{ saving ? 'Saving...' : 'Save' }}</button>
+            <button class="btn btn-secondary" (click)="editMode = false">Cancel</button>
+          </div>
+        </ng-container>
+        <ng-template #viewMode>
+          <h3>{{ ticket.title }}</h3>
+          <p class="description">{{ ticket.description }}</p>
+          <div class="badges">
+            <span class="badge" [style.background]="getPriorityColor(ticket.priority)">{{ ticket.priority }}</span>
+            <span class="badge" [style.background]="getStatusColor(ticket.status)">{{ ticket.status }}</span>
+          </div>
+        </ng-template>
+      </div>
+
+      <div class="card comments-card">
+        <h3>Comments ({{ ticket.comments.length }})</h3>
+        <div *ngIf="ticket.comments.length === 0" class="empty-state">No comments yet.</div>
+        <div *ngFor="let c of ticket.comments" class="comment-item">
+          <div class="comment-meta"><strong>{{ c.authorName }}</strong> &middot; {{ formatDate(c.createdAt) }}</div>
+          <div class="comment-message">{{ c.message }}</div>
+        </div>
+
+        <div class="comment-form">
+          <div *ngIf="commentError" class="alert alert-error">{{ commentError }}</div>
+          <textarea [(ngModel)]="commentText" placeholder="Add a comment..."></textarea>
+          <div class="comment-actions">
+            <select [(ngModel)]="commentAuthor">
+              <option *ngFor="let u of users" [ngValue]="u.id">{{ u.name }}</option>
+            </select>
+            <button class="btn btn-primary btn-sm" (click)="addComment()" [disabled]="!commentText.trim()">Add Comment</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="card">
+        <h3>Details</h3>
+        <dl>
+          <dt>Created By</dt><dd>{{ ticket.creatorName }}</dd>
+          <dt>Assignee</dt><dd>{{ ticket.assigneeName || 'Unassigned' }}</dd>
+          <dt>Created</dt><dd>{{ formatDate(ticket.createdAt) }}</dd>
+          <dt>Updated</dt><dd>{{ formatDate(ticket.updatedAt) }}</dd>
+        </dl>
+      </div>
+
+      <div class="card">
+        <h3>Change Status</h3>
+        <p class="status-current">Current: <strong>{{ ticket.status }}</strong></p>
+        <div *ngIf="statusError" class="alert alert-error">{{ statusError }}</div>
+        <p *ngIf="allowedTransitions.length === 0" class="terminal-note">This ticket is in a terminal state.</p>
+        <div class="status-actions" *ngIf="allowedTransitions.length > 0">
+          <button *ngFor="let s of allowedTransitions"
+            class="btn btn-sm"
+            [class.btn-danger]="s === 'Cancelled'"
+            [class.btn-primary]="s !== 'Cancelled'"
+            (click)="changeStatus(s)">
+            &rarr; {{ s }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>

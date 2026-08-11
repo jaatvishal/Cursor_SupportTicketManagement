@@ -1,0 +1,88 @@
+:root {
+  --color-primary: #2563eb;
+  --color-primary-hover: #1d4ed8;
+  --color-danger: #ef4444;
+  --color-danger-hover: #dc2626;
+  --color-bg: #f8fafc;
+  --color-surface: #ffffff;
+  --color-border: #e2e8f0;
+  --color-text: #1e293b;
+  --color-text-muted: #64748b;
+  --radius: 8px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.6;
+}
+
+.container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+
+.app-header {
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  padding: 1rem 0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.app-header .container { display: flex; align-items: center; justify-content: space-between; }
+.app-header h1 { font-size: 1.4rem; font-weight: 700; color: var(--color-primary); }
+.app-header nav a { margin-left: 1.5rem; font-weight: 500; color: var(--color-text-muted); text-decoration: none; }
+.app-header nav a.active, .app-header nav a:hover { color: var(--color-primary); }
+
+main { padding: 2rem 0; }
+
+.btn {
+  display: inline-flex; align-items: center; padding: 0.5rem 1rem;
+  border: none; border-radius: var(--radius); font-size: 0.9rem;
+  font-weight: 500; cursor: pointer; text-decoration: none;
+}
+.btn-primary { background: var(--color-primary); color: white; }
+.btn-primary:hover { background: var(--color-primary-hover); }
+.btn-secondary { background: var(--color-surface); color: var(--color-text); border: 1px solid var(--color-border); }
+.btn-danger { background: var(--color-danger); color: white; }
+.btn-sm { padding: 0.3rem 0.7rem; font-size: 0.8rem; }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius); padding: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+.form-card { max-width: 600px; }
+
+.form-group { margin-bottom: 1rem; }
+.form-group label { display: block; margin-bottom: 0.3rem; font-weight: 500; font-size: 0.9rem; }
+.form-group input, .form-group select, .form-group textarea {
+  width: 100%; padding: 0.5rem 0.75rem; border: 1px solid var(--color-border);
+  border-radius: var(--radius); font-family: inherit; font-size: 0.95rem;
+}
+.form-group textarea { min-height: 100px; resize: vertical; }
+.error-text { color: var(--color-danger); font-size: 0.8rem; margin-top: 0.25rem; }
+.form-actions { display: flex; gap: 0.75rem; margin-top: 1.5rem; }
+
+.badge { display: inline-block; padding: 0.15rem 0.6rem; border-radius: 999px; font-size: 0.75rem; font-weight: 600; color: white; }
+.alert { padding: 0.75rem 1rem; border-radius: var(--radius); margin-bottom: 1rem; font-size: 0.9rem; }
+.alert-error { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
+
+.page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; }
+.page-header h2 { font-size: 1.5rem; }
+
+.filters { display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+.filters input { flex: 1; min-width: 200px; padding: 0.5rem 0.75rem; border: 1px solid var(--color-border); border-radius: var(--radius); }
+.filters select { padding: 0.5rem 0.75rem; border: 1px solid var(--color-border); border-radius: var(--radius); }
+
+.ticket-table { width: 100%; border-collapse: collapse; }
+.table-card { padding: 0; overflow: hidden; }
+.ticket-table th, .ticket-table td { padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid var(--color-border); }
+.ticket-table th { font-weight: 600; font-size: 0.85rem; color: var(--color-text-muted); text-transform: uppercase; }
+.ticket-table tr:hover { background: #f1f5f9; }
+.ticket-title { font-weight: 500; color: var(--color-primary); text-decoration: none; }
+
+.detail-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem; }
+.loading, .empty-state { text-align: center; padding: 3rem; color: var(--color-text-muted); }
+
+@media (max-width: 768px) {
+  .detail-grid { grid-template-columns: 1fr; }
+  .filters { flex-direction: column; }
+}

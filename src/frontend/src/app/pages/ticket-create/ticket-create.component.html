@@ -1,0 +1,50 @@
+<div class="page-header">
+  <h2>Create Ticket</h2>
+</div>
+
+<div *ngIf="submitError" class="alert alert-error">{{ submitError }}</div>
+
+<div class="card form-card">
+  <form (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="title">Title *</label>
+      <input id="title" [(ngModel)]="title" name="title" placeholder="Brief summary of the issue" />
+      <div *ngIf="errors['title']" class="error-text">{{ errors['title'] }}</div>
+    </div>
+
+    <div class="form-group">
+      <label for="description">Description *</label>
+      <textarea id="description" [(ngModel)]="description" name="description" placeholder="Detailed description"></textarea>
+      <div *ngIf="errors['description']" class="error-text">{{ errors['description'] }}</div>
+    </div>
+
+    <div class="form-group">
+      <label for="priority">Priority</label>
+      <select id="priority" [(ngModel)]="priority" name="priority">
+        <option *ngFor="let p of priorities" [value]="p">{{ p }}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="assignedTo">Assign To</label>
+      <select id="assignedTo" [(ngModel)]="assignedTo" name="assignedTo">
+        <option [ngValue]="null">Unassigned</option>
+        <option *ngFor="let u of agents" [ngValue]="u.id">{{ u.name }}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="createdBy">Created By *</label>
+      <select id="createdBy" [(ngModel)]="createdBy" name="createdBy">
+        <option *ngFor="let u of users" [ngValue]="u.id">{{ u.name }} ({{ u.role }})</option>
+      </select>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary" [disabled]="submitting">
+        {{ submitting ? 'Creating...' : 'Create Ticket' }}
+      </button>
+      <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
+    </div>
+  </form>
+</div>
