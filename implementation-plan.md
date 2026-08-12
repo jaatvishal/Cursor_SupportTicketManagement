@@ -64,7 +64,7 @@ state machine as the core engineering challenge.
 
 | Risk | Impact | Mitigation |
 |------|--------|-----------|
-| SQL Server not available locally | Blocks development | Docker setup documented |
+| SQL Server Express not running | Blocks local persistence | Document SQLEXPRESS setup; API auto-creates schema on startup |
 | State machine edge cases missed | Invalid transitions allowed | Comprehensive test matrix |
 | Frontend/backend contract mismatch | Runtime errors | Mirror DTO shapes and verify against `api-contract.md` |
 | Secrets in repo | Security violation | .env.example only, .gitignore |

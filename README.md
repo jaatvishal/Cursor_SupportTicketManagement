@@ -15,7 +15,7 @@ A full-stack support ticket management application built with AI-assisted develo
 
 - .NET 9 SDK
 - Node.js 18+ and npm
-- SQL Server 2019+ (or Docker)
+- SQL Server Express (local `localhost\SQLEXPRESS`)
 - Angular CLI 19 (`npm install -g @angular/cli@19`)
 
 ## Quick Start

@@ -1,6 +1,41 @@
-@SupportTicket.Api_HostAddress = http://localhost:5229
+@SupportTicket.Api_HostAddress = http://localhost:5000
 
-GET {{SupportTicket.Api_HostAddress}}/weatherforecast/
+### Health
+GET {{SupportTicket.Api_HostAddress}}/api/health
 Accept: application/json
 
-###
+### List tickets
+GET {{SupportTicket.Api_HostAddress}}/api/tickets
+Accept: application/json
+
+### List tickets with search and status filter
+GET {{SupportTicket.Api_HostAddress}}/api/tickets?search=login&status=Open
+Accept: application/json
+
+### Get ticket detail
+GET {{SupportTicket.Api_HostAddress}}/api/tickets/1
+Accept: application/json
+
+### Create ticket
+POST {{SupportTicket.Api_HostAddress}}/api/tickets
+Content-Type: application/json
+
+{
+  "title": "Test ticket",
+  "description": "Created from .http file",
+  "priority": "Medium",
+  "assignedTo": null,
+  "createdBy": 4
+}
+
+### Update ticket status
+PATCH {{SupportTicket.Api_HostAddress}}/api/tickets/1/status
+Content-Type: application/json
+
+{
+  "status": "In Progress"
+}
+
+### List users (for dropdowns)
+GET {{SupportTicket.Api_HostAddress}}/api/tickets/users
+Accept: application/json

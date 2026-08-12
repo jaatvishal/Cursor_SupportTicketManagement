@@ -14,7 +14,7 @@
 - State machine ASCII diagram
 
 **Accepted:** README content  
-**Changed:** Added Docker SQL Server quick start  
+**Changed:** Added SQL Express setup; Docker path was later removed  
 **Rejected:** None
 
 ---

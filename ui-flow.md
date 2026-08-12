@@ -4,9 +4,9 @@
 
 ```
 App Header
-├── "All Tickets" → /           (TicketListPage)
-├── "Create Ticket" → /create   (CreateTicketPage)
-└── Ticket link → /tickets/:id  (TicketDetailPage)
+├── "All Tickets" → /           (TicketListComponent)
+├── "Create Ticket" → /create   (TicketCreateComponent)
+└── Ticket link → /tickets/:id  (TicketDetailComponent)
 ```
 
 ## Page Flows
@@ -18,7 +18,7 @@ User lands on ticket list
   │
   ├── Sees table of all tickets (ID, title, priority, status, assignee, updated)
   │
-  ├── Types in search box → debounced API call with ?search=keyword
+  ├── Types in search box → API call with ?search=keyword on each change
   │
   ├── Selects status filter → API call with ?status=Open
   │
