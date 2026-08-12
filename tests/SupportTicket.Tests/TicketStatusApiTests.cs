@@ -86,6 +86,33 @@ public class TicketStatusApiTests : IClassFixture<CustomWebApplicationFactory>
     }
 
     [Fact]
+    public async Task InvalidTransition_FromCancelled_ShouldReturn422()
+    {
+        var ticketId = await CreateTicketAsync();
+        await PatchStatus(ticketId, TicketStatus.Cancelled);
+
+        var response = await _client.PatchAsJsonAsync($"/api/tickets/{ticketId}/status",
+            new UpdateStatusRequest(TicketStatus.Open));
+
+        Assert.Equal(HttpStatusCode.UnprocessableEntity, response.StatusCode);
+        var error = await response.Content.ReadFromJsonAsync<ApiErrorResponse>();
+        Assert.Contains("terminal state", error!.Error);
+    }
+
+    [Fact]
+    public async Task InvalidStatusValue_ShouldReturn400()
+    {
+        var ticketId = await CreateTicketAsync();
+
+        var response = await _client.PatchAsJsonAsync($"/api/tickets/{ticketId}/status",
+            new UpdateStatusRequest("Waiting"));
+
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        var error = await response.Content.ReadFromJsonAsync<ApiErrorResponse>();
+        Assert.Contains("Invalid status value", error!.Details!.Single());
+    }
+
+    [Fact]
     public async Task CreateTicket_WithoutRequiredFields_ShouldReturn400()
     {
         var response = await _client.PostAsJsonAsync("/api/tickets",
