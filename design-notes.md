@@ -48,4 +48,4 @@ See [data-model.md](data-model.md). EF Core maps to existing SQL Server schema w
 
 - **Unit tests:** TicketStateMachine (28 tests)
 - **Integration tests:** WebApplicationFactory + InMemory DB (6 tests)
-- Total: 34 passing tests
+- Total: 36 passing tests

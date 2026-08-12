@@ -1,6 +1,9 @@
 # API Contract
 
-Base URL: `http://localhost:3001/api`
+Base URL: `http://localhost:5000/api`
+
+Implementation: ASP.NET Core 9 controllers in
+`src/backend/SupportTicket.Api/Controllers/TicketsController.cs`.
 
 ## Health Check
 

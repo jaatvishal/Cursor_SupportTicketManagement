@@ -31,7 +31,7 @@ A small internal support ticket application where users create tickets, assign t
 
 ## Non-Functional Requirements
 
-- Clean, readable code with TypeScript
+- Clean, readable C# and TypeScript
 - Meaningful Git commit history with feature branches
 - Full lifecycle artifacts in repository
 - No secrets committed
@@ -40,17 +40,23 @@ A small internal support ticket application where users create tickets, assign t
 ## Assumptions
 
 1. Users are pre-seeded; no registration/login UI needed
-2. SQL Server is available locally (Docker or installed instance)
+2. SQL Server Express is available locally as `localhost\SQLEXPRESS`
 3. Single-tenant internal tool (no multi-org support)
 4. `createdBy` is selected from seeded users in the UI (no auth session)
 5. Comments are append-only (no edit/delete)
 
-## Clarifications (Questions for a Product Owner)
+## Clarifications and Decisions
 
-1. Should agents be able to reassign tickets to other agents only, or can any user reassign?
-2. Should there be email notifications on status changes?
-3. Is there a maximum comment length?
-4. Should cancelled tickets be reopenable?
+No product owner response was available during the assessment, so the following
+scope decisions were recorded and implemented:
+
+| Question | Decision | Evidence |
+|----------|----------|----------|
+| Who can be assigned? | The UI limits assignees to Admin and Agent users. Authentication is out of Core scope, so any current UI user can perform the reassignment. | `ticket-create.component.ts`, `ticket-detail.component.ts` |
+| Email notifications? | Not implemented; notifications are outside Core scope. | `acceptance-criteria.md` |
+| Maximum comment length? | A comment must be non-empty. No additional maximum was specified, so SQL Server uses `NVARCHAR(MAX)`. | `TicketsController.cs`, `001_create_tables.sql` |
+| Can Cancelled tickets reopen? | No. Cancelled and Closed are terminal states. | `TicketStateMachine.cs`, `TicketStateMachineTests.cs` |
+| How is local database access handled? | SQL Server Express with Windows Integrated Security; the API creates and seeds an empty database on startup. | `appsettings.Development.json`, `DatabaseInitializer.cs` |
 
 ## Edge Cases
 
@@ -58,5 +64,6 @@ A small internal support ticket application where users create tickets, assign t
 2. Assigning to a non-existent user ID
 3. Creating a ticket with empty title or description
 4. Searching with special SQL characters (handled via parameterized queries)
-5. Concurrent status updates on the same ticket
+5. Concurrent status updates on the same ticket (identified risk; distributed
+   optimistic concurrency is not included in Core and is documented as a limitation)
 6. Adding comments to non-existent tickets

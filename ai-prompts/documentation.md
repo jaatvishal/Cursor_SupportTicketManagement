@@ -1,5 +1,8 @@
 # AI Prompts — Documentation
 
+> Provenance: reconstructed activity summary, not a verbatim transcript. See
+> `README.md` and `raw-session-log.md` in this folder.
+
 ## Prompt 1: README and Setup
 
 **Prompt:**

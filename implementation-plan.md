@@ -2,7 +2,9 @@
 
 ## Overview
 
-Build a 3-tier Support Ticket Management System: React frontend, Express/TypeScript backend, SQL Server database. Focus on the status state machine as the core engineering challenge.
+Build a 3-tier Support Ticket Management System: Angular 19 frontend,
+ASP.NET Core 9 Web API, and SQL Server Express database. Focus on the status
+state machine as the core engineering challenge.
 
 ## Task Breakdown
 
@@ -13,14 +15,14 @@ Build a 3-tier Support Ticket Management System: React frontend, Express/TypeScr
 4. Environment configuration
 
 ### Phase 2: Backend API
-1. Database connection layer (mssql)
-2. State machine service with transition validation
-3. Ticket repository (CRUD + comments)
-4. REST routes with Zod validation
-5. Error handling middleware
+1. Entity Framework Core 9 SQL Server DbContext
+2. State machine service in the Core project
+3. Ticket application service (CRUD + comments)
+4. ASP.NET Core controllers with request validation
+5. HTTP error mapping (400/404/422)
 
 ### Phase 3: Frontend
-1. React app with Vite + TypeScript
+1. Angular 19 app with standalone components
 2. Ticket list page with search/filter
 3. Create ticket form with validation
 4. Ticket detail page with edit, comments, status actions
@@ -64,12 +66,12 @@ Build a 3-tier Support Ticket Management System: React frontend, Express/TypeScr
 |------|--------|-----------|
 | SQL Server not available locally | Blocks development | Docker setup documented |
 | State machine edge cases missed | Invalid transitions allowed | Comprehensive test matrix |
-| Frontend/backend type mismatch | Runtime errors | Shared type definitions |
+| Frontend/backend contract mismatch | Runtime errors | Mirror DTO shapes and verify against `api-contract.md` |
 | Secrets in repo | Security violation | .env.example only, .gitignore |
 
 ## Mitigation
 
-- Docker-based SQL Server for consistent local dev
+- SQL Server Express setup and automatic startup initialization
 - Test every valid and invalid transition combination
 - Mirror backend types in frontend
 - Never commit .env files

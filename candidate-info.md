@@ -12,7 +12,10 @@
 
 ## Project Summary
 
-Built a full-stack Support Ticket Management System with Angular 19 frontend, .NET 9 Web API backend, and SQL Server database. Includes enforced ticket status state machine, comments, search/filter, validation, and 34 integration/unit tests.
+Built a full-stack Support Ticket Management System with Angular 19 frontend,
+.NET 9 Web API backend, and SQL Server database. Includes an enforced ticket
+status state machine, comments, search/filter, validation, and 36 unit/API
+integration tests.
 
 ## Tools Used
 

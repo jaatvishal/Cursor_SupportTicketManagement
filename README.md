@@ -63,7 +63,7 @@ ng serve
 ```bash
 cd src/backend
 dotnet test
-# 34 tests: state machine + API integration
+# 36 tests: state machine + API integration
 ```
 
 ## Features (Core)
@@ -100,8 +100,13 @@ Invalid transitions return HTTP 422 and are displayed in the UI.
 │   └── SupportTicket.Tests/        # xUnit tests
 ├── database/                       # SQL Server schema & seeds
 ├── ai-prompts/                     # Prompt history
+├── evidence-index.md               # Source/test/commit evidence map
 └── [lifecycle artifacts]           # Requirements, design, etc.
 ```
+
+Reviewers can start with [evidence-index.md](evidence-index.md) for direct links
+to backend source, frontend source, tests, database scripts, and introducing
+commits.
 
 ## Configuration
 

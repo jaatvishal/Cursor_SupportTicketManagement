@@ -14,4 +14,5 @@ cd src/backend
 dotnet test
 ```
 
-**Result:** 34 tests — state machine unit tests + API integration tests for valid/invalid transitions.
+**Result:** 36 tests — state-machine unit tests plus API integration tests for
+valid/invalid transitions, both terminal states, and invalid input.

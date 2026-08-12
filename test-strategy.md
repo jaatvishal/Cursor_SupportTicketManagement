@@ -6,8 +6,8 @@ Focus on the **status state machine** as the signature judgment piece, with supp
 
 ## Unit Tests
 
-**File:** `tests/integration/stateMachine.test.ts`  
-**Runner:** Jest (no database required)
+**File:** `tests/SupportTicket.Tests/TicketStateMachineTests.cs`
+**Runner:** xUnit on .NET 9 (no external database required)
 
 | Test Group | Cases |
 |-----------|-------|
@@ -21,15 +21,15 @@ Focus on the **status state machine** as the signature judgment piece, with supp
 
 ## API / Integration Tests
 
-**File:** `tests/integration/ticketApi.test.ts`  
-**Runner:** Jest + Supertest (requires SQL Server)  
-**Activation:** `RUN_INTEGRATION_TESTS=true`
+**File:** `tests/SupportTicket.Tests/TicketStatusApiTests.cs`
+**Runner:** xUnit + `WebApplicationFactory<Program>` + EF Core InMemory
 
 | Test Group | Cases |
 |-----------|-------|
 | Valid transitions via API | Open→In Progress→Resolved→Closed (full lifecycle) |
 | Invalid transitions | Open→Resolved, Open→Closed, Closed→Open |
 | Validation | Invalid status value, empty required fields |
+| Terminal states | Closed→Open and Cancelled→Open both return HTTP 422 |
 
 ## Component Tests
 
@@ -55,9 +55,10 @@ Covered within unit tests:
 ## Running Tests
 
 ```bash
-# Unit tests only (no DB needed)
-cd src/backend && npm test
-
-# With integration tests (DB required)
-RUN_INTEGRATION_TESTS=true npm test
+cd src/backend
+dotnet test
 ```
+
+The API integration tests are committed source, run without local SQL Server,
+and exercise the real ASP.NET Core HTTP pipeline. Local SQL Server persistence
+is verified separately with the queries in `database/setup-notes.md`.

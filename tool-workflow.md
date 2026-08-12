@@ -12,7 +12,7 @@ This project was developed entirely using Cursor as the primary AI-assisted deve
 - Prompts stored in `ai-prompts/planning.md`
 
 ### 2. Design
-- Designed architecture (3-tier: React → Express → SQL Server)
+- Designed architecture (Angular 19 → ASP.NET Core 9 → SQL Server)
 - Defined API contract, data model, and UI flows with AI assistance
 - Prompts stored in `ai-prompts/design.md`
 
@@ -45,13 +45,20 @@ main ─────────────────────────
   │
   └── dev ──────────────────────────────────────── (integration branch)
         │
-        ├── feature/database-setup ────────────── (schema + seeds)
-        ├── feature/backend-api ───────────────── (REST API + state machine)
-        ├── feature/frontend-ui ───────────────── (React components)
-        ├── feature/integration-tests ─────────── (state machine tests)
+        ├── feature/dotnet-backend ────────────── (.NET API + tests)
+        ├── feature/angular-frontend ──────────── (Angular components)
         └── feature/documentation ─────────────── (lifecycle artifacts)
+
+cursor/support-ticket-dotnet-angular-35fa ───────── (SQL Express + review fixes)
 ```
 
 ## Cursor-Specific Configuration
 
 See `tool-specific/cursor-workflow/` for Cursor rules and workflow notes.
+
+## Evidence Provenance
+
+The original phase files under `ai-prompts/` are reconstructed activity
+summaries, not complete transcript exports. This limitation is stated explicitly
+in `ai-prompts/README.md`. Authentic corrections, failed commands, and the
+assessment-remediation exchange are preserved in `ai-prompts/raw-session-log.md`.

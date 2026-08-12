@@ -1,15 +1,20 @@
 # AI Prompts — Design
 
+> Provenance: reconstructed activity summary, not a verbatim transcript. See
+> `README.md` and `raw-session-log.md` in this folder.
+
 ## Prompt 1: Architecture Design
 
 **Prompt:**
-> Design the architecture for a Support Ticket Management System using React frontend, Express/TypeScript backend, and SQL Server. Include the status state machine design and validation strategy.
+> Design the architecture for a Support Ticket Management System using Angular
+> 19, ASP.NET Core 9, Entity Framework Core 9, and SQL Server. Include the
+> status state machine and validation strategy.
 
 **AI Response Summary:**
 - 3-tier architecture diagram
-- Layered backend: routes → services → repositories
+- Layered backend: Api → Core → Infrastructure
 - State machine as pure service module
-- Zod for input validation, CHECK constraints in DB
+- Controller/service validation and SQL CHECK constraints
 
 **Accepted:** Architecture, layered backend, state machine isolation  
 **Changed:** Added PATCH endpoint specifically for status changes  
