@@ -2,7 +2,10 @@
 
 ## Summary
 
-Implement Core Support Ticket Management System with React frontend, Express/TypeScript backend, and SQL Server database. Includes enforced status state machine, comments, search/filter, validation, and integration tests.
+Implement the Core Support Ticket Management System with Angular 19,
+ASP.NET Core 9, Entity Framework Core 9, and SQL Server Express. Includes an
+enforced status state machine, comments, search/filter, validation, automatic
+local database initialization, and HTTP integration tests.
 
 ## Features Implemented
 
@@ -10,21 +13,21 @@ Implement Core Support Ticket Management System with React frontend, Express/Typ
 - Add comments to tickets
 - Status state machine with 5 valid transitions
 - Keyword search and status filter
-- Backend validation with Zod
+- Backend request and business-rule validation
 - Frontend error state display
 - SQL Server persistence with schema and seed data
 
 ## Technical Changes
 
 ### Backend (`src/backend/`)
-- Express API with layered architecture (routes → services → repositories)
+- ASP.NET Core solution with Api → Core → Infrastructure layers
 - State machine service with transition validation
-- Zod input validation middleware
-- mssql connection pooling
-- Error handling middleware (400/404/422/500)
+- EF Core SQL Server persistence
+- Controller validation and typed DTO records
+- Semantic HTTP errors (400/404/422)
 
 ### Frontend (`src/frontend/`)
-- React SPA with Vite and TypeScript
+- Angular 19 SPA with standalone components and TypeScript
 - Ticket list with search/filter
 - Create ticket form with validation
 - Ticket detail with edit, comments, status actions
@@ -36,8 +39,8 @@ Implement Core Support Ticket Management System with React frontend, Express/Typ
 - Setup documentation
 
 ### Tests (`tests/`)
-- 31 state machine unit tests
-- API integration tests (valid/invalid transitions, validation)
+- xUnit state-machine tests
+- ASP.NET Core `WebApplicationFactory` integration tests
 
 ## Database Changes
 
@@ -48,11 +51,11 @@ Implement Core Support Ticket Management System with React frontend, Express/Typ
 
 ## Testing Done
 
-- [x] State machine unit tests: 31/31 passed
+- [x] State-machine and API integration tests pass
 - [x] All valid transitions verified
 - [x] All 15 invalid transitions rejected
 - [x] Terminal states confirmed
-- [x] Integration tests configured (require SQL Server)
+- [x] API tests run with EF Core InMemory (no local SQL Server required)
 
 ## AI Usage Summary
 
@@ -60,8 +63,8 @@ Cursor AI was used across all lifecycle phases: planning, design, implementation
 
 ## Screenshots / Demo Notes
 
-1. Start SQL Server, run migrations, start backend and frontend
-2. Navigate to http://localhost:5173
+1. Start SQL Server Express, then start backend and frontend
+2. Navigate to http://localhost:4200
 3. View seeded tickets, search by keyword, filter by status
 4. Create a new ticket, add comments, change status through valid transitions
 5. Attempt invalid transition (e.g., Open → Resolved) to see error handling
@@ -71,7 +74,7 @@ Cursor AI was used across all lifecycle phases: planning, design, implementation
 - No authentication (Stretch feature)
 - No pagination on ticket list
 - Users are seeded only (no CRUD UI)
-- Integration tests require manual SQL Server setup
+- Multi-instance optimistic concurrency is not implemented
 
 ## Future Improvements
 
@@ -79,6 +82,6 @@ Cursor AI was used across all lifecycle phases: planning, design, implementation
 - User management CRUD
 - Filter by priority and assignee
 - Pagination and sorting
-- Swagger/OpenAPI documentation
-- Docker Compose for one-command setup
+- Interactive Swagger UI (OpenAPI JSON is already generated in Development)
+- Automated deployment/CI
 - CI workflow with GitHub Actions

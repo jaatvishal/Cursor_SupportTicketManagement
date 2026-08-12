@@ -1,4 +1,5 @@
 using SupportTicket.Infrastructure;
+using SupportTicket.Infrastructure.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +23,13 @@ builder.Services.AddCors(options =>
 });
 
 var app = builder.Build();
+
+if (!app.Environment.IsEnvironment("Testing"))
+{
+    using var scope = app.Services.CreateScope();
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    await DatabaseInitializer.InitializeAsync(db);
+}
 
 if (app.Environment.IsDevelopment())
 {

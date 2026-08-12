@@ -1,5 +1,8 @@
 # AI Prompts — Implementation
 
+> Provenance: reconstructed activity summary, not a verbatim transcript. See
+> `README.md` and `raw-session-log.md` in this folder.
+
 ## Prompt 1: Database Schema
 
 **Prompt:**
@@ -77,5 +80,5 @@
 - .gitignore for .env files
 
 **Accepted:** Configuration setup  
-**Changed:** Added DB_TRUST_SERVER_CERTIFICATE for Docker  
+**Changed:** Superseded by SQL Express Integrated Security in appsettings  
 **Rejected:** None

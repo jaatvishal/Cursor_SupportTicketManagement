@@ -43,11 +43,12 @@ Used Cursor Chat for:
 ```
 main
  └── dev
-      ├── feature/database-setup
-      ├── feature/backend-api
-      ├── feature/frontend-ui
-      ├── feature/integration-tests
+      ├── feature/dotnet-backend
+      ├── feature/angular-frontend
       └── feature/documentation
+
+cursor/support-ticket-dotnet-angular-35fa
+  └── SQL Express setup, database initialization, assessment fixes
 ```
 
 ## Tips for Effective Cursor Usage

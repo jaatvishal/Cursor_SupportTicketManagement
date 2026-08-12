@@ -1,31 +1,35 @@
 # AI Prompts — Debugging
 
-## Prompt 1: SQL Server Connection
+> Provenance: reconstructed activity summary, not a verbatim transcript. It has
+> been superseded by the failures recorded in `raw-session-log.md` and
+> `../debugging-notes.md`.
+
+## Prompt 1: Stack correction
 
 **Prompt:**
-> Backend fails to connect to SQL Server Docker container with "ConnectionError: Failed to connect to localhost:1433". The .env has DB_SERVER=localhost, DB_PORT=1433, DB_USER=sa. How do I fix this?
+> frontend is Angular with leatest versions, backend is Dot net core with
+> Leates Versions
 
 **AI Response Summary:**
-- Check Docker container is running
-- Verify SA password matches
-- Add trustServerCertificate: true for self-signed certs
-- Set encrypt: false for local dev
+- Replaced the prototype with Angular 19 and ASP.NET Core 9
+- Recorded EF Core 10/.NET 9 and Angular CLI/Node compatibility failures
 
-**Accepted:** trustServerCertificate fix  
-**Changed:** Added both options to .env.example  
-**Rejected:** None
+**Accepted:** Angular/.NET implementation
+**Changed:** Angular 19 was selected as the latest compatible major
+**Rejected:** The first React/Express implementation
 
 ---
 
-## Prompt 2: Status Error Not Showing
+## Prompt 2: SQL Express tables not visible
 
 **Prompt:**
-> When I click an invalid status transition in the UI, the API returns 422 but no error message appears on screen. The handleStatusChange function catches the error and sets statusError state.
+> i am unable to the tables, in my local db, i am created the Db for you
 
 **AI Response Summary:**
-- Error is caught but alert may not be rendered in all DOM positions
-- Suggested placing error alert above status buttons unconditionally
+- Creating the database does not execute schema scripts
+- Added startup `DatabaseInitializer` using EF Core `EnsureCreatedAsync`
+- Added idempotent seed data and retained manual setup scripts
 
-**Accepted:** Moved error alert rendering  
-**Changed:** None  
+**Accepted:** Automatic initialization and local run guidance
+**Changed:** Connection targets `SupportTicketDB`, not `master`
 **Rejected:** None

@@ -12,7 +12,10 @@
 
 ## Project Summary
 
-Built a full-stack Support Ticket Management System with Angular 19 frontend, .NET 9 Web API backend, and SQL Server database. Includes enforced ticket status state machine, comments, search/filter, validation, and 34 integration/unit tests.
+Built a full-stack Support Ticket Management System with Angular 19 frontend,
+.NET 9 Web API backend, and SQL Server database. Includes an enforced ticket
+status state machine, comments, search/filter, validation, and 36 unit/API
+integration tests.
 
 ## Tools Used
 
@@ -27,10 +30,9 @@ Built a full-stack Support Ticket Management System with Angular 19 frontend, .N
 
 ## Setup Summary
 
-1. Start SQL Server (Docker or local)
-2. Run database migration and seed scripts
-3. `dotnet run --project src/backend/SupportTicket.Api`
-4. `ng serve` in `src/frontend`
-5. `dotnet test` in `src/backend`
+1. Ensure SQL Server Express (`localhost\SQLEXPRESS`) is running
+2. `dotnet run --project src/backend/SupportTicket.Api` (creates tables and seeds if empty)
+3. `npm start` in `src/frontend`
+4. `dotnet test` in `src/backend`
 
 See [README.md](README.md) for detailed setup instructions.
